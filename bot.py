@@ -16,7 +16,6 @@ async def on_ready():
 @client.event
 async def on_message(message):
     if message.content.startswith('!ping'):
-    	print(client.get_channel(386360744503017493).name)
     	await client.send_message(message.channel, 'Pong')
     elif message.content.startswith('!isevancute'):
     	await client.send_message(message.channel, 'Yes, of course!')
@@ -27,14 +26,12 @@ async def on_message(message):
     elif message.content.startswith('!clean'):
     	num = int(message.content[7:])
     	print(num)
-    	for i in range(num):
+    	for i in range(num+1):
     		await client.delete_message(client.messages.pop())
     	client.delete_message(message)
-    	#await client.delete_messages(num)
 @client.event
 async def on_message_delete(message):
 	print(client.messages)
-	#await client.send_message(message.channel, client.messages.pop().content)
 	await client.send_message((discord.Object(id='386360744503017493')), message.content)
 
 client.run('Mzg2Mjc0MjgzMjI1MDg4MDAx.DQOLJw.IcnlDoxqlJrCfAdyx17tMR3tg8A')
