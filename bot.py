@@ -3,8 +3,11 @@ import json
 import os
 import discord
 import asyncio
+import logging
+
 from math_func import factorial
 
+logging.basicConfig(level=logging.INFO)
 client = discord.Client()
 
 @client.event
@@ -16,7 +19,15 @@ async def on_ready():
 
 @client.event
 async def on_message(message):
-    args = message.content.split(" ")
+    args = message.content.split(' ')
+
+    # the bot shouldn't respond to it's own messages
+    if message.author == client.user:
+        return
+
+    # print all messages to log channel
+    message_log = str(message.author) + ' ' + message.content
+    await client.send_message((discord.Object(id='386360744503017493')), message_log)
 
     if message.content.startswith('!ping'):
         await client.send_message(message.channel, 'Pong')
@@ -27,8 +38,9 @@ async def on_message(message):
     elif message.content.startswith('!xd'):
         await client.send_message(message.channel, ':joy::joy::joy::joy::joy::joy::joy::joy::joy::joy::joy::joy::joy::joy::joy:\n:joy::cool::cool::cool::cool::cool::cool::cool::cool::cool::cool::cool::cool::cool::joy:\n:joy::cool::100::cool::cool::cool::100::cool::100::100::100::cool::cool::cool::joy:\n:joy::cool::100::100::cool::100::100::cool::100::cool::100::100::cool::cool::joy:\n:joy::cool::cool::100::cool::100::cool::cool::100::cool::cool::100::100::cool::joy:\n:joy::cool::cool::100::100::100::cool::cool::100::cool::cool::cool::100::cool::joy:\n:joy::cool::cool::cool::100::cool::cool::cool::100::cool::cool::cool::100::cool::joy:\n:joy::cool::cool::100::100::100::cool::cool::100::cool::cool::cool::100::cool::joy:\n:joy::cool::cool::100::cool::100::cool::cool::100::cool::cool::100::100::cool::joy:\n:joy::cool::100::100::cool::100::100::cool::100::cool::100::100::cool::cool::joy:\n:joy::cool::100::cool::cool::cool::100::cool::100::100::100::cool::cool::cool::joy:\n :joy::cool::cool::cool::cool::cool::cool::cool::cool::cool::cool::cool::cool::cool::joy:\n:joy::joy::joy::joy::joy::joy::joy::joy::joy::joy::joy::joy::joy::joy::joy:')
     elif message.content.startswith('!clean'):
-        num = int(message.content[7:])
-        print(num)
+        num = 0
+        if len(args) > 0:
+            num = int(args[1])
         for i in range(num+1):
             await client.delete_message(client.messages.pop())
         client.delete_message(message)
