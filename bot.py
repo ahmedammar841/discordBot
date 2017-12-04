@@ -51,7 +51,6 @@ async def on_message(message):
 
 @client.event
 async def on_message_delete(message):
-    print(client.messages)
-    await client.send_message((discord.Object(id='386360744503017493')), message.content)
+    await client.send_message((discord.Object(id='386360744503017493')), message.author.name + '\'s message \"'+ message.content+'\" was deleted')
 
 client.run('Mzg2Mjc0MjgzMjI1MDg4MDAx.DQOLJw.IcnlDoxqlJrCfAdyx17tMR3tg8A')
