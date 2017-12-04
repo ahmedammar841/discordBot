@@ -28,9 +28,19 @@ async def on_message(message):
         return
 
     # print all messages to a log file
-    message_log = '[' + message.timestamp.strftime('%H:%M:%S')+']' + ' ' + message.author.name + ': ' + message.content + '\n'
-    file = open("desktop/log.txt","a")
-    file.write(message_log) 
+    message_log = '[' + message.timestamp.strftime('%H:%M:%S')+']' + ' ' + message.author.name + ': ' + message.content
+    # make sure there aren't any illegal characters. RIP windows
+    message_log = str(message_log.encode('unicode-escape'))
+
+    # write to a log file from the script directory. create the file if it doesn't exist
+    dir = os.path.dirname(__file__)
+    path = 'log.txt'
+    file_path = os.path.join(dir, path)
+    file = open(file_path, 'a')
+
+    # write each message on a single line
+    file.write(message_log)
+    file.write('\n')
     file.close()
 
     if message.content.startswith('!ping'):
