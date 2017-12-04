@@ -5,7 +5,9 @@ import discord
 import asyncio
 import logging
 
+from datetime import datetime
 from math_func import factorial
+
 
 logging.basicConfig(level=logging.INFO)
 client = discord.Client()
@@ -25,9 +27,11 @@ async def on_message(message):
     if message.author == client.user:
         return
 
-    # print all messages to log channel
-    message_log = str(message.author) + ' ' + message.content
-    await client.send_message((discord.Object(id='386360744503017493')), message_log)
+    # print all messages to a log file
+    message_log = '[' + message.timestamp.strftime('%H:%M:%S')+']' + ' ' + message.author.name + ': ' + message.content + '\n'
+    file = open("desktop/log.txt","a")
+    file.write(message_log) 
+    file.close()
 
     if message.content.startswith('!ping'):
         await client.send_message(message.channel, 'Pong')
