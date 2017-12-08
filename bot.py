@@ -7,10 +7,14 @@ import logging
 
 from datetime import datetime
 from math_func import factorial
+from hangman import Hangman
 
 
 logging.basicConfig(level=logging.INFO)
 client = discord.Client()
+
+# making this a global for now
+game = Hangman()
 
 @client.event
 async def on_ready():
@@ -65,9 +69,14 @@ async def on_message(message):
         if len(args) > 1:
             n = int(args[1])
             await client.send_message(message.channel, factorial(n))
+    elif message.content.startswith('!hangman'):
+        if len(args) > 1:
+            if args[1] == 'start':
+                game.start_game()
+        await client.send_message(message.channel, game.return_game_status())
 
 @client.event
 async def on_message_delete(message):
     await client.send_message((discord.Object(id='386360744503017493')), message.author.name + '\'s message \"'+ message.content+'\" was deleted')
 
-client.run('Mzg2Mjc0MjgzMjI1MDg4MDAx.DQOLJw.IcnlDoxqlJrCfAdyx17tMR3tg8A')
+client.run('memes')
