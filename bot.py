@@ -70,13 +70,17 @@ async def on_message(message):
             n = int(args[1])
             await client.send_message(message.channel, factorial(n))
     elif message.content.startswith('!hangman'):
+        game_message = ""
         if len(args) > 1:
             if args[1] == 'start':
                 game.start_game()
-        await client.send_message(message.channel, game.return_game_status())
+                game_message = 'A word has been randomly selected (all lowercase). \nGuess leters by using `!hangman x` (x is the guessed letter). \n'
+            else:
+                game.guess(message.content)
+        await client.send_message(message.channel, game_message + game.get_game_status())
 
 @client.event
 async def on_message_delete(message):
     await client.send_message((discord.Object(id='386360744503017493')), message.author.name + '\'s message \"'+ message.content+'\" was deleted')
 
-client.run('memes')
+client.run('Dank May-Mays')
