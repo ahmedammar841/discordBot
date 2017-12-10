@@ -11,3 +11,4 @@ A discord bot using the python API from [discord.py](https://github.com/Rapptz/d
 | !hangman start | starts a new hangman game |
 | !hangman `x` | guess the letter `x` |
 | !fact `x` | prints the value of `x!` |
+| !choice `x` | returns a random choice from a comma seperated list: `x` |
