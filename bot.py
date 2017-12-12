@@ -84,7 +84,7 @@ async def on_message(message):
                 await client.delete_message(client.messages.pop())
         client.delete_message(message)
    
-   elif message.content.startswith('!factorial'):
+    elif message.content.startswith('!factorial'):
         if args[1] == 'usage':
             await client.send_message(message.channel, '```Usage: !factorial [number to take the factorial of]```')
         else:
