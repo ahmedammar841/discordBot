@@ -12,4 +12,4 @@ A discord bot using the python API from [discord.py](https://github.com/Rapptz/d
 | !hangman `x` | guess the letter `x` |
 | !fact `x` | prints the value of `x!` |
 | !choice `x` | returns a random choice from a comma seperated list: `x` |
-| !`command` usage | returns the format of a command's parameters |
+| !`command` usage | returns the format of `command`'s parameters |
