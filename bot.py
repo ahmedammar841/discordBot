@@ -104,9 +104,10 @@ async def on_message(message):
 
 @client.event
 async def on_message_delete(message):
-    await client.send_message((discord.Object(id='386360744503017493')), message.author.name + '\'s message \"' + message.content + '\" was deleted')
+    await client.send_message((discord.Object(id='253376951543136257')), message.author.name + '\'s message \"' + message.content + '\" was deleted')
 @client.event
 async def on_message_edit(before, after):
-    await client.send_message((discord.Object(id='386360744503017493')), before.author.name + '\'s message \"' + before.content + '\" was edited to: \"' + after.content + '\".' )
+    if message.author != client.user:
+        await client.send_message((discord.Object(id='253376951543136257')), before.author.name + '\'s message \"' + before.content + '\" was edited to: \"' + after.content + '\".' )
 
-client.run('InsertToken')
+client.run('NDE5NjQ0MzU1MzQzODEwNTYz.DXzHxg.vH4XkfaakW58J1p87FfjTyGyACU')
