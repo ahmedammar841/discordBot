@@ -9,6 +9,7 @@ from datetime import datetime
 from math_func import factorial
 from hangman import Hangman
 from random import randint
+from apiKey import key
 
 
 logging.basicConfig(level=logging.INFO)
@@ -110,4 +111,4 @@ async def on_message_edit(before, after):
     if message.author != client.user:
         await client.send_message((discord.Object(id='253376951543136257')), before.author.name + '\'s message \"' + before.content + '\" was edited to: \"' + after.content + '\".' )
 
-client.run('NDE5NjQ0MzU1MzQzODEwNTYz.DXzHxg.vH4XkfaakW58J1p87FfjTyGyACU')
+client.run(key)
