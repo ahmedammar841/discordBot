@@ -5,7 +5,6 @@ import discord
 import asyncio
 import logging
 
-from datetime import datetime
 from math_func import factorial
 from hangman import Hangman
 from random import randint
@@ -14,7 +13,8 @@ from apiKey import key
 
 logging.basicConfig(level=logging.INFO)
 client = discord.Client()
-
+log_channel = client.get_channel(253376951543136257)
+admin_ids = [125440907477647361, 122504678679248897, 125022748090171392, 125441253083971584, 125441169328046081, 125441177947209729]
 # making this a global for now
 game = Hangman()
 
@@ -34,7 +34,7 @@ async def on_message(message):
         return
 
     # print all messages to a log file
-    message_log = '[' + message.timestamp.strftime('%H:%M:%S')+']' + ' ' + message.author.name + ': ' + message.content
+    message_log = '[' + message.created_at.strftime('%H:%M:%S')+']' + ' ' + message.author.name + ': ' + message.content
     # make sure there aren't any illegal characters. RIP windows
     message_log = str(message_log.encode('unicode-escape'))
 
@@ -50,7 +50,7 @@ async def on_message(message):
     file.close()
 
     if message.content.startswith('!ping'):
-        await client.send_message(message.channel, 'Pong')
+        await message.channel.send('Pong')
 
     elif message.content.startswith('!angrave'):
         dir = os.path.dirname(__file__)
@@ -60,39 +60,41 @@ async def on_message(message):
 
     elif message.content.startswith('!choice'):
         if args[1] == 'usage':
-            await client.send_message(message.channel, '```Usage: !choice [first choice, second choice, third choice...]```')
+            await message.channel.send('```Usage: !choice [first choice, second choice, third choice...]```')
         choices = message.content.split(', ')
         choice = randint(0, len(choices)-1)
         if choice == 0 and args[1] != 'usage':
-             await client.send_message(message.channel, choices[0][7:])
+             await message.channel.send(choices[0][7:])
         elif args[1] != 'usage':
-            await client.send_message(message.channel, choices[choice])
+            await message.channel.send(choices[choice])
 
     elif message.content.startswith('!pepe'):
-        await client.send_message(message.channel, ':frog::frog::frog::frog::frog::frog::frog:\n:frog::frog::frog::frog::frog::frog::frog::frog::frog:\n:frog::frog::frog::frog::frog::frog::frog::frog::frog::frog::frog:\n:frog::frog::frog::frog::frog::frog::frog::frog::frog::frog::frog::frog::frog:\n:frog::frog::white_circle:️:black_circle:️:black_circle:️:white_circle:️:frog::frog::frog::white_circle:️:black_circle:️:black_circle:️:white_circle:️\n:frog::white_circle:️:black_circle:️:black_circle:️:white_circle:️:black_circle:️:white_circle:️:frog::white_circle:️:black_circle:️:black_circle:️:white_circle:️:black_circle:️:white_circle:️\n:frog::white_circle:️:black_circle:️:white_circle:️:black_circle:️:black_circle:️:white_circle:️:frog::white_circle:️:black_circle:️:white_circle:️:black_circle:️:black_circle:️:white_circle:️\n:frog::frog::white_circle:️:black_circle:️:white_circle:️:white_circle:️:frog::frog::frog::white_circle:️:black_circle:️:white_circle:️:white_circle:️\n:frog::frog::frog::frog::frog::frog::frog::frog::frog::frog::frog::frog::frog:\n:red_circle::red_circle::frog::frog::frog::frog::frog::frog::frog::frog::frog::frog::frog:\n:frog::red_circle::red_circle::frog::frog::frog::frog::frog::frog::frog::frog::frog:\n:frog::frog::red_circle::red_circle::red_circle::red_circle::red_circle::red_circle::red_circle::red_circle::red_circle::red_circle::red_circle:\n :frog::frog::frog::red_circle::red_circle::red_circle::red_circle::red_circle::red_circle::red_circle::red_circle::red_circle::red_circle:\n:frog::frog::frog::frog::frog::frog::frog::frog::frog::frog::frog:\n:frog::frog::frog::frog::frog::frog::frog::frog::frog::frog:\n:frog::frog::frog::frog::frog::frog::frog::frog::frog:')
-    
+        await message.channel.send(':frog::frog::frog::frog::frog::frog::frog:\n:frog::frog::frog::frog::frog::frog::frog::frog::frog:\n:frog::frog::frog::frog::frog::frog::frog::frog::frog::frog::frog:\n:frog::frog::frog::frog::frog::frog::frog::frog::frog::frog::frog::frog::frog:\n:frog::frog::white_circle:️:black_circle:️:black_circle:️:white_circle:️:frog::frog::frog::white_circle:️:black_circle:️:black_circle:️:white_circle:️\n:frog::white_circle:️:black_circle:️:black_circle:️:white_circle:️:black_circle:️:white_circle:️:frog::white_circle:️:black_circle:️:black_circle:️:white_circle:️:black_circle:️:white_circle:️\n:frog::white_circle:️:black_circle:️:white_circle:️:black_circle:️:black_circle:️:white_circle:️:frog::white_circle:️:black_circle:️:white_circle:️:black_circle:️:black_circle:️:white_circle:️\n:frog::frog::white_circle:️:black_circle:️:white_circle:️:white_circle:️:frog::frog::frog::white_circle:️:black_circle:️:white_circle:️:white_circle:️\n:frog::frog::frog::frog::frog::frog::frog::frog::frog::frog::frog::frog::frog:\n:red_circle::red_circle::frog::frog::frog::frog::frog::frog::frog::frog::frog::frog::frog:\n:frog::red_circle::red_circle::frog::frog::frog::frog::frog::frog::frog::frog::frog:\n:frog::frog::red_circle::red_circle::red_circle::red_circle::red_circle::red_circle::red_circle::red_circle::red_circle::red_circle::red_circle:\n :frog::frog::frog::red_circle::red_circle::red_circle::red_circle::red_circle::red_circle::red_circle::red_circle::red_circle::red_circle:\n:frog::frog::frog::frog::frog::frog::frog::frog::frog::frog::frog:\n:frog::frog::frog::frog::frog::frog::frog::frog::frog::frog:\n:frog::frog::frog::frog::frog::frog::frog::frog::frog:')
+
     elif message.content.startswith('!xd'):
-        await client.send_message(message.channel, ':joy::joy::joy::joy::joy::joy::joy::joy::joy::joy::joy::joy::joy::joy::joy:\n:joy::cool::cool::cool::cool::cool::cool::cool::cool::cool::cool::cool::cool::cool::joy:\n:joy::cool::100::cool::cool::cool::100::cool::100::100::100::cool::cool::cool::joy:\n:joy::cool::100::100::cool::100::100::cool::100::cool::100::100::cool::cool::joy:\n:joy::cool::cool::100::cool::100::cool::cool::100::cool::cool::100::100::cool::joy:\n:joy::cool::cool::100::100::100::cool::cool::100::cool::cool::cool::100::cool::joy:\n:joy::cool::cool::cool::100::cool::cool::cool::100::cool::cool::cool::100::cool::joy:\n:joy::cool::cool::100::100::100::cool::cool::100::cool::cool::cool::100::cool::joy:\n:joy::cool::cool::100::cool::100::cool::cool::100::cool::cool::100::100::cool::joy:\n:joy::cool::100::100::cool::100::100::cool::100::cool::100::100::cool::cool::joy:\n:joy::cool::100::cool::cool::cool::100::cool::100::100::100::cool::cool::cool::joy:\n :joy::cool::cool::cool::cool::cool::cool::cool::cool::cool::cool::cool::cool::cool::joy:\n:joy::joy::joy::joy::joy::joy::joy::joy::joy::joy::joy::joy::joy::joy::joy:')
-    
+        await message.channel.send(':joy::joy::joy::joy::joy::joy::joy::joy::joy::joy::joy::joy::joy::joy::joy:\n:joy::cool::cool::cool::cool::cool::cool::cool::cool::cool::cool::cool::cool::cool::joy:\n:joy::cool::100::cool::cool::cool::100::cool::100::100::100::cool::cool::cool::joy:\n:joy::cool::100::100::cool::100::100::cool::100::cool::100::100::cool::cool::joy:\n:joy::cool::cool::100::cool::100::cool::cool::100::cool::cool::100::100::cool::joy:\n:joy::cool::cool::100::100::100::cool::cool::100::cool::cool::cool::100::cool::joy:\n:joy::cool::cool::cool::100::cool::cool::cool::100::cool::cool::cool::100::cool::joy:\n:joy::cool::cool::100::100::100::cool::cool::100::cool::cool::cool::100::cool::joy:\n:joy::cool::cool::100::cool::100::cool::cool::100::cool::cool::100::100::cool::joy:\n:joy::cool::100::100::cool::100::100::cool::100::cool::100::100::cool::cool::joy:\n:joy::cool::100::cool::cool::cool::100::cool::100::100::100::cool::cool::cool::joy:\n :joy::cool::cool::cool::cool::cool::cool::cool::cool::cool::cool::cool::cool::cool::joy:\n:joy::joy::joy::joy::joy::joy::joy::joy::joy::joy::joy::joy::joy::joy::joy:')
+
     elif message.content.startswith('!clean'):
         num = 0
         if args[1] == 'usage':
-            await client.send_message(message.channel, '```Usage: !clean [number of messages to delete]```')
-        if len(args) > 0 and args[1] != 'usage':
-            num = int(args[1])
-        if args[1] != 'usage':
-            for i in range(num+1):
-                await client.delete_message(client.messages.pop())
-        client.delete_message(message)
-   
+            await message.channel.send('```Usage: !clean [number of messages to delete]```')
+        if message.author.id not in admin_ids:
+            await message.channel.send('Nice try guy.')
+        elif len(args) > 0 and args[1] != 'usage':
+            num = int(args[1]) + 1
+
+            messages = message.channel.history(limit=num)
+            async for channel_message in messages:
+                await channel_message.delete()
+
     elif message.content.startswith('!factorial'):
         if args[1] == 'usage':
-            await client.send_message(message.channel, '```Usage: !factorial [number to take the factorial of]```')
+            await message.channel.send('```Usage: !factorial [number to take the factorial of]```')
         else:
             if len(args) > 1:
               n = int(args[1])
-              await client.send_message(message.channel, 'The factorial of ' + str(n) + ' is ' + str(factorial(n)) +'.')
-    
+              await message.channel.send('The factorial of ' + str(n) + ' is ' + str(factorial(n)) +'.')
+
     elif message.content.startswith('!hangman'):
         game_message = ""
         if len(args) > 1:
@@ -101,14 +103,14 @@ async def on_message(message):
                 game_message = 'A word has been randomly selected (all lowercase). \nGuess leters by using `!hangman x` (x is the guessed letter). \n'
             else:
                 game.guess(message.content)
-        await client.send_message(message.channel, game_message + game.get_game_status())
+        await message.channel.send(game_message + game.get_game_status())
 
-@client.event
-async def on_message_delete(message):
-    await client.send_message((discord.Object(id='253376951543136257')), message.author.name + '\'s message \"' + message.content + '\" was deleted')
-@client.event
-async def on_message_edit(before, after):
-    if message.author != client.user:
-        await client.send_message((discord.Object(id='253376951543136257')), before.author.name + '\'s message \"' + before.content + '\" was edited to: \"' + after.content + '\".' )
+# @client.event
+# async def on_message_delete(message):
+#     await log_channel.send_message(message.author.name + '\'s message \"' + message.content + '\" was deleted')
+# @client.event
+# async def on_message_edit(before, after):
+#     if message.author != client.user:
+#         await log_channel.send_message(before.author.name + '\'s message \"' + before.content + '\" was edited to: \"' + after.content + '\".' )
 
 client.run(key)
