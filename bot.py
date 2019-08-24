@@ -8,8 +8,8 @@ import logging
 from math_func import factorial
 from hangman import Hangman
 from random import randint
-from apiKey import key
 
+import os
 
 logging.basicConfig(level=logging.INFO)
 client = discord.Client()
@@ -113,4 +113,4 @@ async def on_message(message):
 #     if message.author != client.user:
 #         await log_channel.send_message(before.author.name + '\'s message \"' + before.content + '\" was edited to: \"' + after.content + '\".' )
 
-client.run(key)
+client.run(os.environ.get('DISCORD_API_KEY',3))
