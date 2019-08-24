@@ -17,7 +17,8 @@ log_channel = client.get_channel(253376951543136257)
 admin_ids = [125440907477647361, 122504678679248897, 125022748090171392, 125441253083971584, 125441169328046081, 125441177947209729]
 # making this a global for now
 game = Hangman()
-
+def test():
+    print("main")
 @client.event
 async def on_ready():
     print('Logged in as')
